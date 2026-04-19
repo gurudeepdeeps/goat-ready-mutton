@@ -142,15 +142,15 @@ const PredictImage = () => {
         <input ref={fileInputRef} type="file" hidden accept="image/*" onChange={handleImageChange} />
       </motion.div>
 
-      <div className="lg:sticky lg:top-32">
-        <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100 min-h-[500px] flex flex-col">
+      <div className="lg:sticky lg:top-32 w-full max-w-full overflow-hidden">
+        <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-xl border border-slate-100 min-h-[500px] flex flex-col w-full">
             <div className="flex items-center gap-4 border-b border-slate-50 pb-8 mb-8">
                 <div className="bg-slate-900 p-3 rounded-2xl">
                     <Brain className="text-white w-6 h-6" />
                 </div>
                 <div>
                     <h3 className="font-bold text-slate-900">AI Pipeline Status</h3>
-                    <div className="flex items-center gap-4 mt-1">
+                    <div className="flex flex-wrap items-center gap-2 mt-1">
                         <div className={`text-[10px] font-black uppercase px-2 py-0.5 rounded ${step >= 1 ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>Detection</div>
                         <div className={`text-[10px] font-black uppercase px-2 py-0.5 rounded ${step >= 2 ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>Estimation</div>
                         <div className={`text-[10px] font-black uppercase px-2 py-0.5 rounded ${step === 3 ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>Prediction</div>
@@ -201,7 +201,7 @@ const PredictImage = () => {
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
                         <div className="text-center group">
                             <div className="text-xs font-black text-primary-600 uppercase mb-2">Predicted Ready Mutton</div>
-                            <div className="text-7xl font-black text-slate-900 group-hover:scale-110 transition-transform">{result.result.estimated_mutton} <span className="text-xl text-slate-400 font-medium">kg</span></div>
+                            <div className="text-5xl md:text-7xl font-black text-slate-900 group-hover:scale-110 transition-transform">{result.result.estimated_mutton} <span className="text-xl text-slate-400 font-medium">kg</span></div>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -215,7 +215,7 @@ const PredictImage = () => {
                             </div>
                         </div>
 
-                        <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                        <div className="p-4 sm:p-6 rounded-3xl bg-slate-50 border border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
                             <div className="flex items-center gap-3">
                                 <div className="bg-green-100 p-2 rounded-lg text-green-600">
                                     <ShieldCheck className="w-5 h-5" />
