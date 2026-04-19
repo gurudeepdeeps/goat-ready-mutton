@@ -1,4 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M11 20A7 7 0 0 1 14 6h7v7a7 7 0 0 1-7 7Z"/>
-  <path d="M11 20a7 7 0 0 1-7-7v-2h2a7 7 0 0 1 7 7"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#g)"/>
+  <!-- Goat body -->
+  <ellipse cx="256" cy="290" rx="110" ry="75" fill="white" opacity="0.95"/>
+  <!-- Goat head -->
+  <ellipse cx="340" cy="210" rx="55" ry="48" fill="white" opacity="0.95"/>
+  <!-- Goat legs -->
+  <rect x="180" y="345" width="22" height="70" rx="10" fill="white" opacity="0.9"/>
+  <rect x="215" y="355" width="22" height="60" rx="10" fill="white" opacity="0.9"/>
+  <rect x="285" y="355" width="22" height="60" rx="10" fill="white" opacity="0.9"/>
+  <rect x="320" y="345" width="22" height="70" rx="10" fill="white" opacity="0.9"/>
+  <!-- Goat ear -->
+  <ellipse cx="375" cy="178" rx="18" ry="28" fill="white" opacity="0.9" transform="rotate(30,375,178)"/>
+  <!-- Goat horns -->
+  <path d="M325 170 Q310 130 320 110" stroke="white" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.9"/>
+  <path d="M355 165 Q370 125 360 105" stroke="white" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.9"/>
+  <!-- Eye -->
+  <circle cx="350" cy="205" r="7" fill="#14532d"/>
+  <!-- Tail -->
+  <path d="M148 270 Q120 250 130 230" stroke="white" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.8"/>
 </svg>

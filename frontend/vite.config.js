@@ -11,22 +11,27 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({ 
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['favicon.svg', 'icons/icon-192.png', 'icons/icon-512.png'],
       manifest: {
-        name: 'Goat Ready Mutton',
+        name: 'Goat Ready Mutton Predictor',
         short_name: 'ReadyMutton',
         description: 'Predict ready mutton weight accurately.',
-        theme_color: '#ffffff',
+        theme_color: '#16a34a',
+        background_color: '#ffffff',
+        display: 'standalone',
+        start_url: '/',
+        scope: '/',
         icons: [
           {
-            src: 'favicon.svg',
+            src: 'icons/icon-192.png',
             sizes: '192x192',
-            type: 'image/svg+xml'
+            type: 'image/png'
           },
           {
-            src: 'favicon.svg',
+            src: 'icons/icon-512.png',
             sizes: '512x512',
-            type: 'image/svg+xml'
+            type: 'image/png',
+            purpose: 'any maskable'
           }
         ]
       }

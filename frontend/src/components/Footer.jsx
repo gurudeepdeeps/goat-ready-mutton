@@ -1,5 +1,5 @@
-import { Leaf } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import BrandLogo from './BrandLogo';
 
 const Footer = () => {
   return (
@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-6">
-              <Leaf className="text-primary-400 w-8 h-8" />
+              <BrandLogo className="w-8 h-8 rounded-xl" alt="GoatReady Mutton logo" />
               <span className="font-bold text-2xl tracking-tight">
                 GoatReady <span className="text-primary-400">Mutton</span>
               </span>

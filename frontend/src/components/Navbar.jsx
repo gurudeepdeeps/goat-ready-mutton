@@ -1,13 +1,33 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Leaf, Menu, X, Globe } from 'lucide-react';
+import { Menu, X, Globe, Download } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import BrandLogo from './BrandLogo';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const currentLang = i18n.language?.slice(0, 2) || 'en';
+  const [installPrompt, setInstallPrompt] = useState(null);
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setInstallPrompt(null);
+    }
+  };
 
   const handleLanguageChange = (e) => {
     i18n.changeLanguage(e.target.value);
@@ -29,9 +49,10 @@ const Navbar = () => {
         <div className="flex justify-between h-20">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2 group">
-              <div className="bg-primary-600 p-2 rounded-xl group-hover:rotate-12 transition-transform shadow-lg shadow-primary-600/20">
-                <Leaf className="text-white w-6 h-6" />
-              </div>
+              <BrandLogo
+                alt="GoatReady Mutton logo"
+                className="w-10 h-10 rounded-xl group-hover:rotate-12 transition-transform shadow-lg shadow-primary-600/20"
+              />
               <span className="font-bold text-xl tracking-tight text-slate-800">
                 GoatReady <span className="text-primary-600">Mutton</span>
               </span>
@@ -62,6 +83,15 @@ const Navbar = () => {
                     <option value="kn">ಕನ್ನಡ</option>
                 </select>
             </div>
+            {installPrompt && (
+              <button 
+                onClick={handleInstallClick}
+                className="flex items-center gap-2 bg-primary-50 text-primary-700 px-4 py-2 rounded-xl text-sm font-bold hover:bg-primary-100 transition-colors border border-primary-200"
+              >
+                <Download className="w-4 h-4" />
+                Install App
+              </button>
+            )}
             <Link to="/predict-weight" className="btn-primary py-2 px-4 text-sm">
               Start Prediction
             </Link>
@@ -106,6 +136,17 @@ const Navbar = () => {
                     <option value="kn">ಕನ್ನಡ</option>
                 </select>
             </div>
+            {installPrompt && (
+              <div className="px-3 py-4 border-t border-slate-100">
+                <button 
+                  onClick={handleInstallClick}
+                  className="w-full flex items-center justify-center gap-2 bg-primary-600 text-white px-4 py-3 rounded-xl font-bold"
+                >
+                  <Download className="w-5 h-5" />
+                  Install App
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
