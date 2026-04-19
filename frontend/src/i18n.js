@@ -60,10 +60,14 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: "en", 
+    lng: "en",
     fallbackLng: "en",
+    keySeparator: false,
     interpolation: {
-      escapeValue: false 
+      escapeValue: false
+    },
+    react: {
+      useSuspense: false
     }
   });
 

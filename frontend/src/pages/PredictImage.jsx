@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { predictImage } from '../api';
-import { Camera, Upload, Trash2, Zap, Brain, ShieldCheck, RefreshCw, Layers, Download } from 'lucide-react';
+import { Camera, Upload, Trash2, Zap, Brain, ShieldCheck, RefreshCw, Layers } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
 
 const PredictImage = () => {
   const { t } = useTranslation();
@@ -88,17 +86,7 @@ const PredictImage = () => {
     setStep(0);
   };
 
-  const handleDownloadPDF = async () => {
-    const element = document.getElementById("result-card");
-    const canvas = await html2canvas(element, { scale: 2 });
-    const data = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-    const imgProperties = pdf.getImageProperties(data);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
-    pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("goat-mutton-prediction.pdf");
-  };
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
@@ -295,12 +283,8 @@ const PredictImage = () => {
                             </div>
                         </div>
 
-                        <div className="mt-8 flex flex-col sm:flex-row gap-4" data-html2canvas-ignore="true">
-                            <button onClick={handleDownloadPDF} className="btn-primary flex-1 flex items-center justify-center gap-2">
-                                <Download className="w-4 h-4" />
-                                {t("Download PDF Report")}
-                            </button>
-                            <button onClick={reset} className="btn-secondary flex-1">
+                        <div className="mt-8">
+                            <button onClick={reset} className="btn-secondary w-full">
                                 {t("Predict Another")}
                             </button>
                         </div>

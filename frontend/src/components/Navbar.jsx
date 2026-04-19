@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language?.slice(0, 2) || 'en';
 
   const handleLanguageChange = (e) => {
     i18n.changeLanguage(e.target.value);
@@ -54,7 +55,7 @@ const Navbar = () => {
                 <Globe className="w-4 h-4 text-slate-500" />
                 <select 
                     className="bg-transparent text-sm font-semibold text-slate-700 outline-none"
-                    value={i18n.language}
+                    value={currentLang}
                     onChange={handleLanguageChange}
                 >
                     <option value="en">English</option>
@@ -98,7 +99,7 @@ const Navbar = () => {
                 <span className="text-base font-medium text-slate-600">Language</span>
                 <select 
                     className="bg-slate-50 px-2 py-1 rounded border border-slate-200 text-slate-700 outline-none"
-                    value={i18n.language}
+                    value={currentLang}
                     onChange={handleLanguageChange}
                 >
                     <option value="en">English</option>
