@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { getHistory, clearHistory, deleteHistoryItem } from '../api';
 import { History as HistoryIcon, Calendar, Weight, Tag, RefreshCcw, ChevronRight, ChevronDown, Trash2, ShieldAlert } from 'lucide-react';
 
 const History = () => {
+  const { t } = useTranslation();
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState(null);
@@ -25,15 +27,15 @@ const History = () => {
   };
 
   const handleClear = async () => {
-    if (window.confirm("Are you sure you want to clear ALL history? This cannot be undone.")) {
+    if (window.confirm(t('confirm_clear_all'))) {
       await clearHistory();
       await fetchHistory();
     }
   };
 
   const handleDelete = async (e, id) => {
-    e.stopPropagation(); // prevent expanding when clicking delete
-    if (window.confirm("Delete this historic prediction?")) {
+    e.stopPropagation();
+    if (window.confirm(t('confirm_delete'))) {
       await deleteHistoryItem(id);
       await fetchHistory();
     }
@@ -54,19 +56,19 @@ const History = () => {
         <div>
           <h1 className="text-4xl font-black text-slate-900 mb-4 flex items-center gap-3">
             <HistoryIcon className="text-primary-600 w-10 h-10" />
-            Prediction History
+            {t('Prediction History')}
           </h1>
           <p className="text-slate-600 text-lg">
-            Review your past mutton weight estimations and analysis logs.
+            {t('history_subtitle')}
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           <button onClick={fetchHistory} className="btn-secondary flex items-center justify-center gap-2">
-            <RefreshCcw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> Refresh
+            <RefreshCcw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> {t('Refresh')}
           </button>
           {history.length > 0 && (
             <button onClick={handleClear} className="bg-red-50 text-red-600 hover:bg-red-100 px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
-              <ShieldAlert className="w-4 h-4" /> Clear All History
+              <ShieldAlert className="w-4 h-4" /> {t('Clear All History')}
             </button>
           )}
         </div>
@@ -81,8 +83,8 @@ const History = () => {
       ) : history.length === 0 ? (
         <div className="bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl p-20 text-center">
           <HistoryIcon className="w-16 h-16 text-slate-300 mx-auto mb-6" />
-          <h3 className="text-xl font-bold text-slate-900 mb-2">No history found</h3>
-          <p className="text-slate-500">Run some predictions to see them logged here.</p>
+          <h3 className="text-xl font-bold text-slate-900 mb-2">{t('No history found')}</h3>
+          <p className="text-slate-500">{t('history_empty')}</p>
         </div>
       ) : (
         <div className="grid md:grid-cols-2 gap-6">
@@ -125,7 +127,7 @@ const History = () => {
                     <div className="text-3xl font-black text-slate-900">
                       {item.result_json.result?.estimated_mutton || item.result_json.estimated_mutton} <span className="text-sm font-medium text-slate-400">kg</span>
                     </div>
-                    <div className="text-[10px] font-bold text-slate-500 uppercase">Estimated Mutton</div>
+                    <div className="text-[10px] font-bold text-slate-500 uppercase">{t('Estimated Mutton')}</div>
                   </div>
                   <div className="bg-slate-50 p-4 rounded-2xl transition-colors">
                     <Weight className="w-6 h-6 text-slate-400" />
@@ -135,21 +137,21 @@ const History = () => {
                 <div className="space-y-3 pt-4 border-t border-slate-50">
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-slate-500 font-medium flex items-center gap-1">
-                      <Tag className="w-3 h-3" /> Breed
+                      <Tag className="w-3 h-3" /> {t('Breed')}
                     </span>
                     <span className="font-bold text-slate-800">{item.input_json.breed}</span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-500 font-medium">Confidence Score</span>
+                    <span className="text-slate-500 font-medium">{t('Confidence Score')}</span>
                     <span className="font-bold text-primary-600">{item.result_json.result?.confidence_score || item.result_json.confidence_score}%</span>
                   </div>
                 </div>
                 
                 <div className="mt-6 flex items-center justify-between gap-1 text-[10px] font-black text-primary-600">
                   {expandedId === item.id ? (
-                    <><span className="flex items-center gap-1"><ChevronDown className="w-3 h-3" /> HIDE DETAILS</span></>
+                    <><span className="flex items-center gap-1"><ChevronDown className="w-3 h-3" /> {t('HIDE DETAILS')}</span></>
                   ) : (
-                    <><span className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> VIEW FULL DETAILS</span></>
+                    <><span className="flex items-center gap-1"><ChevronRight className="w-3 h-3" /> {t('VIEW FULL DETAILS')}</span></>
                   )}
                 </div>
 
@@ -164,13 +166,13 @@ const History = () => {
                     >
                       <div className="grid grid-cols-2 gap-4">
                         <div className="bg-slate-50 p-4 rounded-xl">
-                          <h4 className="text-[10px] font-black uppercase text-slate-500 mb-2">Input Variables</h4>
+                          <h4 className="text-[10px] font-black uppercase text-slate-500 mb-2">{t('Input Variables')}</h4>
                           <pre className="text-xs text-slate-700 overflow-x-auto">
                             {JSON.stringify(item.input_json, null, 2)}
                           </pre>
                         </div>
                         <div className="bg-primary-50 p-4 rounded-xl">
-                          <h4 className="text-[10px] font-black uppercase text-primary-600 mb-2">Calculation Result</h4>
+                          <h4 className="text-[10px] font-black uppercase text-primary-600 mb-2">{t('Calculation Result')}</h4>
                           <pre className="text-xs text-primary-900 overflow-x-auto">
                             {JSON.stringify(item.result_json, null, 2)}
                           </pre>

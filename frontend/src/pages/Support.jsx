@@ -1,8 +1,11 @@
 import React from 'react';
-import { Mail, Phone, MessageSquare, MapPin } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const Support = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
       <motion.div
@@ -10,8 +13,8 @@ const Support = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-16"
       >
-        <h1 className="text-4xl font-black text-slate-900 mb-4">Contact Support</h1>
-        <p className="text-slate-600 text-lg">We are here to help farms and traders succeed. Reach out to our team anytime.</p>
+        <h1 className="text-4xl font-black text-slate-900 mb-4">{t('Contact Support')}</h1>
+        <p className="text-slate-600 text-lg">{t('support_subtitle')}</p>
       </motion.div>
 
       <div className="grid md:grid-cols-2 gap-8 mb-16">
@@ -20,8 +23,8 @@ const Support = () => {
             <Mail className="w-8 h-8" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Email Us</h3>
-            <p className="text-slate-500 mb-4">For technical support, feature requests, or general inquiries.</p>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{t('Email Us')}</h3>
+            <p className="text-slate-500 mb-4">{t('email_desc')}</p>
             <a href="mailto:gurudeepv55@gmail.com" className="text-primary-600 font-bold hover:underline">gurudeepv55@gmail.com</a>
           </div>
         </div>
@@ -31,8 +34,8 @@ const Support = () => {
             <Phone className="w-8 h-8" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Call Us</h3>
-            <p className="text-slate-500 mb-4">Available Mon-Fri, 9am to 6pm IST for urgent trading support.</p>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{t('Call Us')}</h3>
+            <p className="text-slate-500 mb-4">{t('call_desc')}</p>
             <a href="tel:+916363770057" className="text-primary-600 font-bold hover:underline">+91 63637 70057</a>
           </div>
         </div>

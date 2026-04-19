@@ -100,6 +100,30 @@ const resources = {
       "Detecting Goat...": "Detecting Goat...",
       "Extracting Biometrics": "Extracting Biometrics",
 
+      // ── History ──
+      "Prediction History": "Prediction History",
+      "history_subtitle": "Review your past mutton weight estimations and analysis logs.",
+      "Refresh": "Refresh",
+      "Clear All History": "Clear All History",
+      "No history found": "No history found",
+      "history_empty": "Run some predictions to see them logged here.",
+      "Estimated Mutton": "Estimated Mutton",
+      "Confidence Score": "Confidence Score",
+      "HIDE DETAILS": "HIDE DETAILS",
+      "VIEW FULL DETAILS": "VIEW FULL DETAILS",
+      "Input Variables": "Input Variables",
+      "Calculation Result": "Calculation Result",
+      "confirm_clear_all": "Are you sure you want to clear ALL history? This cannot be undone.",
+      "confirm_delete": "Delete this historic prediction?",
+
+      // ── Support / Contact ──
+      "Contact Support": "Contact Support",
+      "support_subtitle": "We are here to help farms and traders succeed. Reach out to our team anytime.",
+      "Email Us": "Email Us",
+      "email_desc": "For technical support, feature requests, or general inquiries.",
+      "Call Us": "Call Us",
+      "call_desc": "Available Mon-Fri, 9am to 6pm IST for urgent trading support.",
+
       // ── About ──
       "About GoatReady Mutton": "About GoatReady Mutton",
       "about_subtitle": "We are bridging the gap between traditional livestock farming and modern AI technology. Our tool is designed to provide quick, reliable, and data-driven insights for the meat industry.",
@@ -214,6 +238,30 @@ const resources = {
       "Predict Another": "ಮತ್ತೊಂದು ಊಹಿಸಿ",
       "Detecting Goat...": "ಮೇಕೆಯನ್ನು ಪತ್ತೆಹಚ್ಚಲಾಗುತ್ತಿದೆ...",
       "Extracting Biometrics": "ಜೈವಿಕ ಮಾಪನಗಳನ್ನು ಹೊರತೆಗೆಯಲಾಗುತ್ತಿದೆ",
+
+      // ── History ──
+      "Prediction History": "ಭವಿಷ್ಯವಾಣಿ ಇತಿಹಾಸ",
+      "history_subtitle": "ನಿಮ್ಮ ಹಿಂದಿನ ಮಟನ್ ತೂಕ ಅಂದಾಜು ಮತ್ತು ವಿಶ್ಲೇಷಣೆ ಲಾಗ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
+      "Refresh": "ರಿಫ್ರೆಶ್",
+      "Clear All History": "ಎಲ್ಲಾ ಇತಿಹಾಸ ಅಳಿಸಿ",
+      "No history found": "ಯಾವುದೇ ಇತಿಹಾಸ ಕಂಡುಬಂದಿಲ್ಲ",
+      "history_empty": "ಇಲ್ಲಿ ಲಾಗ್ ಮಾಡಲು ಕೆಲವು ಭವಿಷ್ಯವಾಣಿಗಳನ್ನು ರನ್ ಮಾಡಿ.",
+      "Estimated Mutton": "ಅಂದಾಜು ಮಟನ್",
+      "Confidence Score": "ವಿಶ್ವಾಸ ಸ್ಕೋರ್",
+      "HIDE DETAILS": "ವಿವರಗಳನ್ನು ಮರೆಮಾಡಿ",
+      "VIEW FULL DETAILS": "ಸಂಪೂರ್ಣ ವಿವರ ನೋಡಿ",
+      "Input Variables": "ಇನ್‌ಪುಟ್ ವೇರಿಯಬಲ್‌ಗಳು",
+      "Calculation Result": "ಲೆಕ್ಕಾಚಾರದ ಫಲಿತಾಂಶ",
+      "confirm_clear_all": "ನೀವು ಎಲ್ಲಾ ಇತಿಹಾಸ ತೆಗೆದುಹಾಕಲು ಖಚಿತವಾಗಿ ಬಯಸುತ್ತೀರಾ?",
+      "confirm_delete": "ಈ ಭವಿಷ್ಯವಾಣಿ ಅಳಿಸುವುದೇ?",
+
+      // ── Support / Contact ──
+      "Contact Support": "ಸಂಪರ್ಕ ಬೆಂಬಲ",
+      "support_subtitle": "ರೈತರು ಮತ್ತು ವ್ಯಾಪಾರಿಗಳಿಗೆ ಯಶಸ್ಸನ್ನು ನೀಡಲು ನಾವು ಇಲ್ಲಿದ್ದೇವೆ. ಯಾವಾಗಲಾದರೂ ನಮ್ಮ ತಂಡವನ್ನು ಸಂಪರ್ಕಿಸಿ.",
+      "Email Us": "ಇಮೇಲ್ ಮಾಡಿ",
+      "email_desc": "ತಾಂತ್ರಿಕ ಬೆಂಬಲ, ವೈಶಿಷ್ಟ್ಯ ವಿನಂತಿಗಳು ಅಥವಾ ಸಾಮಾನ್ಯ ಪ್ರಶ್ನೆಗಳಿಗಾಗಿ.",
+      "Call Us": "ಕರೆ ಮಾಡಿ",
+      "call_desc": "ತುರ್ತು ವ್ಯಾಪಾರ ಬೆಂಬಲಕ್ಕಾಗಿ ಸೋಮ-ಶುಕ್ರ, ಬೆಳಿಗ್ಗೆ 9 ರಿಂದ ಸಂಜೆ 6 IST ಲಭ್ಯ.",
 
       // ── About ──
       "About GoatReady Mutton": "GoatReady Mutton ಬಗ್ಗೆ",
