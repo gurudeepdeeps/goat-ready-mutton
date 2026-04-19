@@ -60,12 +60,12 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center gap-4 lg:gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-semibold transition-colors hover:text-primary-600 ${
+                className={`text-sm font-semibold whitespace-nowrap transition-colors hover:text-primary-600 ${
                   location.pathname === link.path ? 'text-primary-600' : 'text-slate-600'
                 }`}
               >
@@ -86,13 +86,13 @@ const Navbar = () => {
             {installPrompt && (
               <button 
                 onClick={handleInstallClick}
-                className="flex items-center gap-2 bg-primary-50 text-primary-700 px-4 py-2 rounded-xl text-sm font-bold hover:bg-primary-100 transition-colors border border-primary-200"
+                className="h-12 px-4 inline-flex items-center justify-center gap-2 whitespace-nowrap bg-primary-50 text-primary-700 rounded-xl text-sm font-bold hover:bg-primary-100 transition-colors border border-primary-200"
               >
                 <Download className="w-4 h-4" />
                 Install App
               </button>
             )}
-            <Link to="/predict-weight" className="btn-primary py-2 px-4 text-sm">
+            <Link to="/predict-weight" className="btn-primary h-12 px-4 text-sm whitespace-nowrap">
               Start Prediction
             </Link>
           </div>
