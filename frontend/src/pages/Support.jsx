@@ -1,0 +1,44 @@
+import React from 'react';
+import { Mail, Phone, MessageSquare, MapPin } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const Support = () => {
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-16">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center mb-16"
+      >
+        <h1 className="text-4xl font-black text-slate-900 mb-4">Contact Support</h1>
+        <p className="text-slate-600 text-lg">We are here to help farms and traders succeed. Reach out to our team anytime.</p>
+      </motion.div>
+
+      <div className="grid md:grid-cols-2 gap-8 mb-16">
+        <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100 flex items-start gap-4 hover:border-primary-300 transition-all">
+          <div className="bg-primary-50 p-4 rounded-2xl text-primary-600">
+            <Mail className="w-8 h-8" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Email Us</h3>
+            <p className="text-slate-500 mb-4">For technical support, feature requests, or general inquiries.</p>
+            <a href="mailto:gurudeepv55@gmail.com" className="text-primary-600 font-bold hover:underline">gurudeepv55@gmail.com</a>
+          </div>
+        </div>
+
+        <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-100 flex items-start gap-4 hover:border-primary-300 transition-all">
+          <div className="bg-primary-50 p-4 rounded-2xl text-primary-600">
+            <Phone className="w-8 h-8" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Call Us</h3>
+            <p className="text-slate-500 mb-4">Available Mon-Fri, 9am to 6pm IST for urgent trading support.</p>
+            <a href="tel:+916363770057" className="text-primary-600 font-bold hover:underline">+91 63637 70057</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Support;
