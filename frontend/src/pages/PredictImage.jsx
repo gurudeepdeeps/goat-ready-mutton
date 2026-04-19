@@ -69,7 +69,7 @@ const PredictImage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16 grid lg:grid-cols-2 gap-16 items-start">
+    <div className="max-w-7xl mx-auto px-4 py-8 lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent text-slate-900 text-xs font-black uppercase tracking-wider mb-6">
           <Zap className="w-3 h-3 fill-slate-900" /> Beta feature
@@ -117,9 +117,9 @@ const PredictImage = () => {
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <select 
-                    className="input-field"
+                    className="input-field w-full"
                     onChange={(e) => setFormData({...formData, breed: e.target.value})}
                     defaultValue="Local breed"
                 >
@@ -204,12 +204,12 @@ const PredictImage = () => {
                             <div className="text-7xl font-black text-slate-900 group-hover:scale-110 transition-transform">{result.result.estimated_mutton} <span className="text-xl text-slate-400 font-medium">kg</span></div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="p-6 bg-slate-900 rounded-3xl text-white">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="p-6 bg-slate-900 rounded-3xl text-white flex flex-col items-center sm:items-start">
                                 <div className="text-[10px] uppercase font-bold text-slate-500 mb-2">Live Weight</div>
                                 <div className="text-3xl font-black">{result.ai_analysis.predicted_live_weight}kg</div>
                             </div>
-                            <div className="p-6 bg-primary-600 rounded-3xl text-white">
+                            <div className="p-6 bg-primary-600 rounded-3xl text-white flex flex-col items-center sm:items-start">
                                 <div className="text-[10px] uppercase font-bold text-primary-200 mb-2">Confidence</div>
                                 <div className="text-3xl font-black">{result.result.confidence_score}%</div>
                             </div>
