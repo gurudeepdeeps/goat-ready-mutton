@@ -1,15 +1,26 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { predictImage } from '../api';
-import { Camera, Upload, Trash2, Zap, Brain, ShieldCheck, RefreshCw, Layers } from 'lucide-react';
+import { Camera, Upload, Trash2, Zap, Brain, ShieldCheck, RefreshCw, Layers, Download } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 const PredictImage = () => {
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState('');
+  const { t } = useTranslation();
+
+  const [imageSide, setImageSide] = useState(null);
+  const [previewSide, setPreviewSide] = useState('');
+  
+  const [imageFront, setImageFront] = useState(null);
+  const [previewFront, setPreviewFront] = useState('');
+
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
-  const [step, setStep] = useState(0); // 0: Idle, 1: Detecting, 2: Analyzing, 3: Done
-  const fileInputRef = useRef(null);
+  const [step, setStep] = useState(0); 
+  
+  const fileInputSideRef = useRef(null);
+  const fileInputFrontRef = useRef(null);
 
   const [formData, setFormData] = useState({
     breed: 'Local breed',
@@ -19,28 +30,35 @@ const PredictImage = () => {
     fat: 'Medium'
   });
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e, type) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file);
-      setPreview(URL.createObjectURL(file));
+      if (type === 'side') {
+        setImageSide(file);
+        setPreviewSide(URL.createObjectURL(file));
+      } else {
+        setImageFront(file);
+        setPreviewFront(URL.createObjectURL(file));
+      }
       setResult(null);
       setStep(0);
     }
   };
 
   const handlePredict = async () => {
-    if (!image) return;
+    if (!imageSide || !imageFront) {
+      alert("Please upload BOTH Side View and Front View images!");
+      return;
+    }
     
     setLoading(true);
     setResult(null);
     setStep(1);
 
-    // Simulated step animation
     setTimeout(() => setStep(2), 1500);
 
     const formDataToPayload = new FormData();
-    formDataToPayload.append('file', image);
+    formDataToPayload.append('file', imageSide);
     formDataToPayload.append('breed', formData.breed);
     formDataToPayload.append('gender', formData.gender);
     formDataToPayload.append('age', formData.age);
@@ -62,10 +80,24 @@ const PredictImage = () => {
   };
 
   const reset = () => {
-    setImage(null);
-    setPreview('');
+    setImageSide(null);
+    setPreviewSide('');
+    setImageFront(null);
+    setPreviewFront('');
     setResult(null);
     setStep(0);
+  };
+
+  const handleDownloadPDF = async () => {
+    const element = document.getElementById("result-card");
+    const canvas = await html2canvas(element, { scale: 2 });
+    const data = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+    const imgProperties = pdf.getImageProperties(data);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+    pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("goat-mutton-prediction.pdf");
   };
 
   return (
@@ -76,45 +108,80 @@ const PredictImage = () => {
         </div>
         <h1 className="text-4xl font-black text-slate-900 mb-6 flex items-center gap-3">
           <Camera className="text-primary-600 w-10 h-10" />
-          Predict by Image
+          {t("Predict by Image")}
         </h1>
         <p className="text-slate-600 mb-10 text-lg">
-          Upload a clear side-view image of the goat. Our simulated AI pipeline detects the animal and estimates dimensions for a mutton prediction.
+          {t("Upload a clear side-view image")}
         </p>
 
-        {!preview ? (
-          <div 
-            onClick={() => fileInputRef.current.click()}
-            className="w-full aspect-square md:aspect-video rounded-3xl border-4 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-all group"
-          >
-            <div className="bg-white p-6 rounded-full shadow-lg group-hover:scale-110 transition-transform mb-6">
-              <Upload className="w-10 h-10 text-slate-400 group-hover:text-primary-600" />
-            </div>
-            <p className="font-bold text-slate-800">Drag & Drop or Click to Upload</p>
-            <p className="text-slate-400 text-sm mt-2 font-medium">Clear side-view goat image recommended</p>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
-              <img src={preview} alt="Goat Preview" className="w-full h-auto" />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                 <button onClick={() => fileInputRef.current.click()} className="p-3 bg-white rounded-xl hover:bg-white/90 transition-colors">
-                    <RefreshCw className="w-6 h-6 text-slate-800" />
-                 </button>
-                 <button onClick={reset} className="p-3 bg-red-600 rounded-xl hover:bg-red-700 transition-colors">
-                    <Trash2 className="w-6 h-6 text-white" />
-                 </button>
-              </div>
-              
-              {/* Scanning effect */}
-              {loading && (
-                 <motion.div 
-                    initial={{ top: 0 }}
-                    animate={{ top: '100%' }}
-                    transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-                    className="absolute left-0 right-0 h-1 bg-primary-500 shadow-[0_0_20px_#408945] z-10"
-                 />
+        {(!previewSide || !previewFront) && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div 
+              onClick={() => fileInputSideRef.current.click()}
+              className={`w-full aspect-square rounded-3xl border-4 ${previewSide ? 'border-primary-500 p-1' : 'border-dashed border-slate-200 p-6'} bg-slate-50 flex flex-col items-center justify-center cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-all relative overflow-hidden group`}
+            >
+              {previewSide ? (
+                <img src={previewSide} className="w-full h-full object-cover rounded-2xl" />
+              ) : (
+                <>
+                    <div className="bg-white p-4 rounded-full shadow-lg group-hover:scale-110 transition-transform mb-4">
+                    <Upload className="w-8 h-8 text-slate-400 group-hover:text-primary-600" />
+                    </div>
+                    <p className="font-bold text-slate-800 text-center">{t("Side View")}</p>
+                </>
               )}
+            </div>
+
+            <div 
+              onClick={() => fileInputFrontRef.current.click()}
+              className={`w-full aspect-square rounded-3xl border-4 ${previewFront ? 'border-primary-500 p-1' : 'border-dashed border-slate-200 p-6'} bg-slate-50 flex flex-col items-center justify-center cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-all relative overflow-hidden group`}
+            >
+              {previewFront ? (
+                <img src={previewFront} className="w-full h-full object-cover rounded-2xl" />
+              ) : (
+                <>
+                    <div className="bg-white p-4 rounded-full shadow-lg group-hover:scale-110 transition-transform mb-4">
+                    <Upload className="w-8 h-8 text-slate-400 group-hover:text-primary-600" />
+                    </div>
+                    <p className="font-bold text-slate-800 text-center">{t("Front View")}</p>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
+        {(previewSide && previewFront) && (
+          <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl group aspect-square">
+                <img src={previewSide} alt="Side" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <button onClick={() => fileInputSideRef.current.click()} className="p-2 bg-white rounded-xl hover:bg-white/90 transition-colors">
+                        <RefreshCw className="w-5 h-5 text-slate-800" />
+                    </button>
+                    <button onClick={reset} className="p-2 bg-red-600 rounded-xl hover:bg-red-700 transition-colors">
+                        <Trash2 className="w-5 h-5 text-white" />
+                    </button>
+                </div>
+                {loading && (
+                    <motion.div initial={{ top: 0 }} animate={{ top: '100%' }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="absolute left-0 right-0 h-1 bg-primary-500 shadow-[0_0_20px_#408945] z-10" />
+                )}
+                </div>
+
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl group aspect-square">
+                <img src={previewFront} alt="Front" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <button onClick={() => fileInputFrontRef.current.click()} className="p-2 bg-white rounded-xl hover:bg-white/90 transition-colors">
+                        <RefreshCw className="w-5 h-5 text-slate-800" />
+                    </button>
+                    <button onClick={reset} className="p-2 bg-red-600 rounded-xl hover:bg-red-700 transition-colors">
+                        <Trash2 className="w-5 h-5 text-white" />
+                    </button>
+                </div>
+                {loading && (
+                    <motion.div initial={{ top: 0 }} animate={{ top: '100%' }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="absolute left-0 right-0 h-1 bg-primary-500 shadow-[0_0_20px_#408945] z-10" />
+                )}
+                </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -134,26 +201,27 @@ const PredictImage = () => {
                   onClick={handlePredict}
                   className="btn-primary w-full py-4 font-black flex items-center justify-center gap-2"
                 >
-                  {loading ? 'AI Processing...' : 'Run Image AI Analysis'}
+                  {loading ? t('AI Processing...') : t('Run Image AI Analysis')}
                 </button>
             </div>
           </div>
         )}
-        <input ref={fileInputRef} type="file" hidden accept="image/*" onChange={handleImageChange} />
+        <input ref={fileInputSideRef} type="file" hidden accept="image/*" onChange={(e) => handleImageChange(e, 'side')} />
+        <input ref={fileInputFrontRef} type="file" hidden accept="image/*" onChange={(e) => handleImageChange(e, 'front')} />
       </motion.div>
 
       <div className="lg:sticky lg:top-32 w-full max-w-full overflow-hidden">
-        <div className="bg-white rounded-3xl p-5 sm:p-8 shadow-xl border border-slate-100 min-h-[500px] flex flex-col w-full">
-            <div className="flex items-center gap-4 border-b border-slate-50 pb-8 mb-8">
+        <div id="result-card" className="bg-white rounded-3xl p-5 sm:p-8 shadow-xl border border-slate-100 min-h-[500px] flex flex-col w-full">
+            <div className="flex items-center gap-4 border-b border-slate-50 pb-8 mb-8" data-html2canvas-ignore="true">
                 <div className="bg-slate-900 p-3 rounded-2xl">
                     <Brain className="text-white w-6 h-6" />
                 </div>
                 <div>
-                    <h3 className="font-bold text-slate-900">AI Pipeline Status</h3>
+                    <h3 className="font-bold text-slate-900">{t("AI Pipeline Status")}</h3>
                     <div className="flex flex-wrap items-center gap-2 mt-1">
-                        <div className={`text-[10px] font-black uppercase px-2 py-0.5 rounded ${step >= 1 ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>Detection</div>
-                        <div className={`text-[10px] font-black uppercase px-2 py-0.5 rounded ${step >= 2 ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>Estimation</div>
-                        <div className={`text-[10px] font-black uppercase px-2 py-0.5 rounded ${step === 3 ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>Prediction</div>
+                        <div className={`text-[10px] font-black uppercase px-2 py-0.5 rounded ${step >= 1 ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>{t("Detection")}</div>
+                        <div className={`text-[10px] font-black uppercase px-2 py-0.5 rounded ${step >= 2 ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>{t("Estimation")}</div>
+                        <div className={`text-[10px] font-black uppercase px-2 py-0.5 rounded ${step === 3 ? 'bg-primary-500 text-white' : 'bg-slate-100 text-slate-400'}`}>{t("Prediction")}</div>
                     </div>
                 </div>
             </div>
@@ -162,8 +230,8 @@ const PredictImage = () => {
                 {step === 0 && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col items-center justify-center text-center">
                         <Camera className="w-16 h-16 text-slate-200 mb-6" />
-                        <h4 className="font-bold text-slate-500">Wait for Analysis</h4>
-                        <p className="text-slate-400 text-sm max-w-[200px]">Upload an image and run AI to see the prediction results.</p>
+                        <h4 className="font-bold text-slate-500">{t("Wait for Analysis")}</h4>
+                        <p className="text-slate-400 text-sm max-w-[200px]">Upload front and side images to begin AI analysis.</p>
                     </motion.div>
                 )}
 
@@ -174,7 +242,7 @@ const PredictImage = () => {
                             <Layers className="absolute w-10 h-10 text-primary-600" />
                         </div>
                         <div className="text-center">
-                            <h4 className="text-xl font-black text-slate-800">Detecting Goat...</h4>
+                            <h4 className="text-xl font-black text-slate-800">{t("Detecting Goat...")}</h4>
                             <p className="text-slate-500">Locating animal in image frame using YOLOv8 simulation.</p>
                         </div>
                      </motion.div>
@@ -191,7 +259,7 @@ const PredictImage = () => {
                             ))}
                         </div>
                         <div className="text-center">
-                            <h4 className="text-xl font-black text-slate-800">Extracting Biometrics</h4>
+                            <h4 className="text-xl font-black text-slate-800">{t("Extracting Biometrics")}</h4>
                             <p className="text-slate-500">Estimating heart girth and length based on body contour analysis.</p>
                         </div>
                     </motion.div>
@@ -200,17 +268,17 @@ const PredictImage = () => {
                 {step === 3 && result && (
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
                         <div className="text-center group">
-                            <div className="text-xs font-black text-primary-600 uppercase mb-2">Predicted Ready Mutton</div>
+                            <div className="text-xs font-black text-primary-600 uppercase mb-2">{t("Predicted Ready Mutton")}</div>
                             <div className="text-5xl md:text-7xl font-black text-slate-900 group-hover:scale-110 transition-transform">{result.result.estimated_mutton} <span className="text-xl text-slate-400 font-medium">kg</span></div>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="p-6 bg-slate-900 rounded-3xl text-white flex flex-col items-center sm:items-start">
-                                <div className="text-[10px] uppercase font-bold text-slate-500 mb-2">Live Weight</div>
+                                <div className="text-[10px] uppercase font-bold text-slate-500 mb-2">{t("Live Weight")}</div>
                                 <div className="text-3xl font-black">{result.ai_analysis.predicted_live_weight}kg</div>
                             </div>
                             <div className="p-6 bg-primary-600 rounded-3xl text-white flex flex-col items-center sm:items-start">
-                                <div className="text-[10px] uppercase font-bold text-primary-200 mb-2">Confidence</div>
+                                <div className="text-[10px] uppercase font-bold text-primary-200 mb-2">{t("Confidence")}</div>
                                 <div className="text-3xl font-black">{result.result.confidence_score}%</div>
                             </div>
                         </div>
@@ -220,15 +288,21 @@ const PredictImage = () => {
                                 <div className="bg-green-100 p-2 rounded-lg text-green-600">
                                     <ShieldCheck className="w-5 h-5" />
                                 </div>
-                                <span className="text-sm font-bold text-slate-800">Carcass Yield Verified</span>
+                                <span className="text-sm font-bold text-slate-800">{t("Carcass Yield Verified")}</span>
                             </div>
                             <div className="text-sm font-bold text-slate-500">
                                 DP: {result.result.dressing_percentage}%
                             </div>
                         </div>
 
-                        <div className="mt-auto">
-                            <button onClick={reset} className="btn-secondary w-full">Predict Another</button>
+                        <div className="mt-8 flex flex-col sm:flex-row gap-4" data-html2canvas-ignore="true">
+                            <button onClick={handleDownloadPDF} className="btn-primary flex-1 flex items-center justify-center gap-2">
+                                <Download className="w-4 h-4" />
+                                {t("Download PDF Report")}
+                            </button>
+                            <button onClick={reset} className="btn-secondary flex-1">
+                                {t("Predict Another")}
+                            </button>
                         </div>
                     </motion.div>
                 )}

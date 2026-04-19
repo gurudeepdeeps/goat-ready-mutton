@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Leaf, Menu, X } from 'lucide-react';
+import { Leaf, Menu, X, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { i18n } = useTranslation();
+
+  const handleLanguageChange = (e) => {
+    i18n.changeLanguage(e.target.value);
+  };
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -44,6 +50,17 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
+            <div className="flex items-center gap-2 bg-slate-50 px-2 py-1 rounded-lg border border-slate-200">
+                <Globe className="w-4 h-4 text-slate-500" />
+                <select 
+                    className="bg-transparent text-sm font-semibold text-slate-700 outline-none"
+                    value={i18n.language}
+                    onChange={handleLanguageChange}
+                >
+                    <option value="en">English</option>
+                    <option value="kn">ಕನ್ನಡ</option>
+                </select>
+            </div>
             <Link to="/predict-weight" className="btn-primary py-2 px-4 text-sm">
               Start Prediction
             </Link>
@@ -77,6 +94,17 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
+            <div className="flex items-center justify-between px-3 py-4 mt-2 border-t border-slate-100">
+                <span className="text-base font-medium text-slate-600">Language</span>
+                <select 
+                    className="bg-slate-50 px-2 py-1 rounded border border-slate-200 text-slate-700 outline-none"
+                    value={i18n.language}
+                    onChange={handleLanguageChange}
+                >
+                    <option value="en">English</option>
+                    <option value="kn">ಕನ್ನಡ</option>
+                </select>
+            </div>
           </div>
         </div>
       )}
