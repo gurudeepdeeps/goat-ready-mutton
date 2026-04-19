@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d220f" />
+      <stop offset="55%" stop-color="#1e3a21" />
+      <stop offset="100%" stop-color="#2f6e33" />
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.13" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.05" />
+    </linearGradient>
+    <linearGradient id="goatTile" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#16a34a" />
+      <stop offset="100%" stop-color="#14532d" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="1070" cy="90" r="180" fill="#61a566" fill-opacity="0.2" />
+  <circle cx="990" cy="560" r="220" fill="#61a566" fill-opacity="0.14" />
+
+  <rect x="52" y="48" width="1096" height="534" rx="34" fill="url(#card)" stroke="#bfdfc1" stroke-opacity="0.35" />
+
+  <rect x="90" y="96" width="142" height="142" rx="30" fill="url(#goatTile)" />
+  <ellipse cx="160" cy="172" rx="33" ry="23" fill="#ffffff" fill-opacity="0.95" />
+  <ellipse cx="188" cy="147" rx="16" ry="14" fill="#ffffff" fill-opacity="0.95" />
+  <rect x="136" y="189" width="7" height="21" rx="3.5" fill="#ffffff" fill-opacity="0.9" />
+  <rect x="148" y="192" width="7" height="18" rx="3.5" fill="#ffffff" fill-opacity="0.9" />
+  <rect x="170" y="192" width="7" height="18" rx="3.5" fill="#ffffff" fill-opacity="0.9" />
+  <rect x="182" y="189" width="7" height="21" rx="3.5" fill="#ffffff" fill-opacity="0.9" />
+  <ellipse cx="197" cy="137" rx="5" ry="8" fill="#ffffff" fill-opacity="0.9" transform="rotate(30 197 137)" />
+  <path d="M183 135 Q178 122 181 115" stroke="#ffffff" stroke-width="3.2" fill="none" stroke-linecap="round" />
+  <path d="M192 133 Q197 120 194 113" stroke="#ffffff" stroke-width="3.2" fill="none" stroke-linecap="round" />
+  <circle cx="191" cy="146" r="2.2" fill="#14532d" />
+  <path d="M126 166 Q116 160 120 152" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" />
+
+  <text x="258" y="150" fill="#e8f8e9" font-size="28" font-family="Arial, Helvetica, sans-serif" font-weight="700">
+    Goat Ready Mutton Predictor
+  </text>
+  <text x="90" y="286" fill="#ffffff" font-size="62" font-family="Arial, Helvetica, sans-serif" font-weight="800">
+    AI Goat Ready Mutton Predictor
+  </text>
+  <text x="90" y="338" fill="#def0df" font-size="32" font-family="Arial, Helvetica, sans-serif" font-weight="600">
+    Estimate ready mutton weight from live goat data and images.
+  </text>
+  <text x="90" y="385" fill="#bfdfc1" font-size="26" font-family="Arial, Helvetica, sans-serif" font-weight="500">
+    Accurate, fast, and built for farmers and traders.
+  </text>
+
+  <rect x="90" y="444" width="324" height="84" rx="18" fill="#16a34a" />
+  <text x="252" y="497" text-anchor="middle" fill="#ffffff" font-size="34" font-family="Arial, Helvetica, sans-serif" font-weight="800">
+    START PREDICTION
+  </text>
+
+  <text x="90" y="560" fill="#92c596" font-size="22" font-family="Arial, Helvetica, sans-serif" font-weight="600">
+    goat-ready-mutton.vercel.app
+  </text>
+</svg>
